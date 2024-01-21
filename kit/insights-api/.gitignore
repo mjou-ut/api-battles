@@ -8,12 +8,13 @@ log/
 .shadow-cljs/
 node_modules/
 modules/
+.vscode/
 
 # IntelliJ
 *.iml
 .idea/
 
 # clj-kondo
-.clj-kondo/.cache/
-.calva/output-window/
-.lsp/.cache/
+.clj-kondo/
+.calva/
+.lsp/
