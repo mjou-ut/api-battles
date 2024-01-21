@@ -1,0 +1,81 @@
+#+title: Example Web Application in Clojure
+
+This repo is a simple web application using Integrant, Ring, Reitit, and Selmer connected to a local SQLite database.
+
+For learning purpose, I redid from scratch the very useful [[https://github.com/seancorfield/usermanager-example][Sean Corfield's usermanager repo]] and decided to move some libraries to learn them too in the process.
+- [[https://github.com/weavejester/compojure][Compojure]] -> [[https://github.com/metosin/reitit][Reitit]]
+- [[https://github.com/stuartsierra/component][Component]] -> [[https://github.com/weavejester/integrant][Integrant]]
+
+A Single Page App version that use [[https://github.com/prestancedesign/inertia-clojure][Inertia-clojure]] library can be found [[https://github.com/prestancedesign/reagent-inertia-reitit-integrant-fullstack][here]].
+
+** Requirements
+
+   This example assumes that you have the [[https://clojure.org/guides/deps_and_cli][Clojure CLI]] installed, and provides a =deps.edn= file.
+
+   Clojure 1.10 (or later) is required. The "model" of this example app uses namespace-qualified keys in hash maps. It uses [[https://cljdoc.org/d/seancorfield/next.jdbc][next.jdbc]] -- the "next generation" JDBC library for Clojure -- which produces namespace-qualified hash maps from result sets.
+
+** Usage
+*** Run the Application
+    Clone the repo, =cd= into it, then follow below to /Run the Application/ or /Run the application/ in REPL.
+    You can launch the application by directly calling the namespace which contains the =-main= function in an terminal
+    #+begin_src sh
+      $ clj -m usermanager.system
+    #+end_src
+    or more conveniently, using an alias configured in =deps.edn= file.
+    #+begin_src sh
+      $ clj -A:server
+    #+end_src
+    Now acces the app at: [[http://localhost:3000/][http://localhost:3000/]].
+*** Run the Application in REPL
+    #+begin_src sh
+      $ clj -A:dev
+    #+end_src
+    Once REPL starts, run the system:
+    #+begin_src clojure
+      user=> (go)
+    #+end_src
+    Now acces the app at: [[http://localhost:3000/][http://localhost:3000/]].
+
+** Build an Uberjar
+   For production deployment, you typically want to build an "uberjar" -- a =.jar= file that contains Clojure itself and all of the code from your application and its dependencies, so that you can run it with the =java -jar= command.
+
+   The =build.clj= file -- mentioned above -- contains a =ci= task that:
+   - cleans up the `target` folder
+   - compiles the application (sometimes called "AOT compilation")
+   - produces a standalone `.jar` file
+   #+begin_src sh
+     clojure -T:build ci
+   #+end_src
+
+   You should see something like this:
+   #+begin_src sh
+     Cleaning target...
+
+     Skipping pom.xml because :lib and/or :version were omitted...
+     Copying src, resources...
+     Compiling system.main...
+     2022-05-25 18:20:13.069:INFO::main: Logging initialized @3981ms to org.eclipse.jetty.util.log.StdErrLog
+     Building uberjar target/reitit-example-standalone.jar...
+   #+end_src
+
+   The =target= folder will be created if it doesn't exist and it will include a =classes= folder containing all of the compiled Clojure source code from the =usermanager= application /and all of its dependencies/ including Clojure itself:
+   #+begin_src sh
+     $ ls target/classes/
+     cheshire  clojure  clout  com  compojure  crypto  instaparse  json_html  layouts  medley  next  public  ring  selmer  usermanager  views
+   #+end_src
+
+   It will also include the standalone =.jar= file which you can run like this:
+
+   #+begin_src sh
+     java -jar target/example-standalone.jar
+   #+end_src
+
+   This should behave the same as the /Run the Application/ example above.
+
+   This JAR file can be deployed to any server that have Java installed and run with no other external dependencies or files.
+
+** License & Copyright
+
+   Copyright (c) 2015-2022 Sean Corfield / Michaël SALIHI.
+
+   Distributed under the Apache Source License 2.0.

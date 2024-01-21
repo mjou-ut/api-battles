@@ -1,0 +1,8 @@
+/.cpcache/
+/.nrepl-port
+/usermanager_db
+.cache
+/target
+.clj-kondo
+.cpcache
+.lsp
