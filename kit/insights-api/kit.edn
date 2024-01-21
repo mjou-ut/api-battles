@@ -1,0 +1,8 @@
+{:full-name "ihub/insights-api"
+ :ns-name   "ihub.insights-api"
+ :sanitized "ihub/insights_api"
+ :name      "insights-api"
+ :modules   {:root         "modules"
+             :repositories [{:url  "https://github.com/kit-clj/modules.git"
+                             :tag  "master"
+                             :name "kit-modules"}]}}
